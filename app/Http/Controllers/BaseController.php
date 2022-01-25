@@ -7,17 +7,18 @@ abstract class BaseController
 {
     protected $classe;
 
-    public function index(Request $request)
+    public function index()
     {
         return $this->classe::all();
     }
 
     public function store(Request $request)
     {
-        if (is_null($request->descricao) || is_null($request->valor)) {
-            return response()->json(
-                "As informações 'Descrição' e 'Valor' são obrigatórias", 201
-            );
+        if (is_null($request->descricao) || is_null($request->valor) || is_null($request->data)) {
+            return response()->json(["error" => "As informações 'Descrição' e 'Valor' são obrigatórias"], 203);
+        }
+        if($this->classe::existsRecurso($request->valor, $request->descricao, $request->data)) {
+            return response()->json(["error" => "Já existe um registro igual a este para o mês selecionado"], 203);
         }
         return response()->json(
             $this->classe::create($request->all()), 201
@@ -38,9 +39,10 @@ abstract class BaseController
     {
         $recurso = $this->classe::find($id);
         if (is_null($recurso)) {
-            return response()->json([
-                'erro' => 'Recurso não encontrado'
-            ], 404);
+            return response()->json(['erro' => 'Recurso não encontrado'], 404);
+        }
+        if($this->classe::existsRecurso($request->valor, $request->descricao, $request->data)) {
+            return response()->json(["error" => "Já existe um registro igual a este para o mês selecionado"], 203);
         }
         $recurso->fill($request->all());
         $recurso->save();
