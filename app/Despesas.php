@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Despesas extends Model
 {
     protected $fillable = [
-        'descricao', 'valor', 'data'
+        'descricao', 'valor', 'data', 'categoria'
     ];
 
     public static function existsRecurso(float $valor, String $descricao, String $data ) {
