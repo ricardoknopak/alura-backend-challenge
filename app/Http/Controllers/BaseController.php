@@ -41,9 +41,6 @@ abstract class BaseController
         if (is_null($recurso)) {
             return response()->json(['erro' => 'Recurso não encontrado'], 404);
         }
-        if($this->classe::existsRecurso($request->valor, $request->descricao, $request->data)) {
-            return response()->json(["error" => "Já existe um registro igual a este para o mês selecionado"], 203);
-        }
         $recurso->fill($request->all());
         $recurso->save();
 
