@@ -21,16 +21,18 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'receitas'], function () use ($router) {
         $router->get('', 'ReceitasController@index');
-        $router->get('{id}', 'ReceitasController@show');
+        $router->get('/descricao/{descricao}', 'ReceitasController@findByName');
+        $router->get('{id:[\d]+}', 'ReceitasController@show');
         $router->post('', 'ReceitasController@store');
-        $router->put('{id}', 'ReceitasController@update');
-        $router->delete('{id}', 'ReceitasController@destroy');
+        $router->put('{id:[\d]+}', 'ReceitasController@update');
+        $router->delete('{id:[\d]+}', 'ReceitasController@destroy');
     });
     $router->group(['prefix' => 'despesas'], function () use ($router) {
         $router->get('', 'DespesasController@index');
-        $router->get('{id}', 'DespesasController@show');
+        $router->get('/descricao/{descricao}', 'DespesasController@findByName');
+        $router->get('{id:[\d]+}', 'DespesasController@show');
         $router->post('', 'DespesasController@store');
-        $router->put('{id}', 'DespesasController@update');
-        $router->delete('{id}', 'DespesasController@destroy');
+        $router->put('{id:[\d]+}', 'DespesasController@update');
+        $router->delete('{id:[\d]+}', 'DespesasController@destroy');
     });
 });

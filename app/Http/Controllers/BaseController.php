@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 abstract class BaseController
 {
@@ -57,5 +58,15 @@ abstract class BaseController
         }
 
         return response()->json('', 204);
+    }
+
+    public function findByName(String $descricao) {
+        
+        $recurso = DB::table('receitas')
+                ->where('descricao', 'like', '%' . $descricao . '%')
+                ->get();
+        
+        return $recurso;
+
     }
 }
