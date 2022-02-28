@@ -15,4 +15,11 @@ class ReceitasController extends BaseController
     {
         $this->classe = Receitas::class;
     }
+
+    public function findByName($descricao) {
+        $recurso = DB::table('receitas')
+                ->where('descricao', 'like', '%' . $descricao . '%')
+                ->get();
+        return $recurso;
+    }
 }

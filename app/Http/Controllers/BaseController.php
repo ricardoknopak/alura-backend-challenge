@@ -15,8 +15,8 @@ abstract class BaseController
 
     public function store(Request $request)
     {
-        if (is_null($request->descricao) || is_null($request->valor) || is_null($request->data)) {
-            return response()->json(["error" => "As informações 'Descrição' e 'Valor' são obrigatórias"], 203);
+        if (is_null($request->descricao) || is_null($request->valor)) {
+            return response()->json(["error" => "Nem todos os dados obrigatórios foram preenchidos"], 203);
         }
         if($this->classe::existsRecurso($request->valor, $request->descricao, $request->data)) {
             return response()->json(["error" => "Já existe um registro igual a este para o mês selecionado"], 203);
@@ -60,13 +60,5 @@ abstract class BaseController
         return response()->json('', 204);
     }
 
-    public function findByName(String $descricao) {
-        
-        $recurso = DB::table('receitas')
-                ->where('descricao', 'like', '%' . $descricao . '%')
-                ->get();
-        
-        return $recurso;
-
-    }
+    public abstract function findByName(String $descricao);
 }

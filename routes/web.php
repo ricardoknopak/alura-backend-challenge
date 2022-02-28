@@ -36,3 +36,4 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->delete('{id:[\d]+}', 'DespesasController@destroy');
     });
 });
+$router->post('/api/login', 'TokenController@gerarToken');
